@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Jokes Ahead</title>
+
+  <!-- Bootstrap 5 CDN -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+
+<body class="bg-light">
+
+  <div class="container py-5">
+
+    <!-- Heading -->
+    <div class="row mb-4">
+      <div class="col text-center">
+        <h1 class="fw-bold">Let's find something funny for you ✌️</h1>
+      </div>
+    </div>
+
+    <!-- Form Section -->
+    <div class="row justify-content-center">
+      <div class="col-md-8 col-lg-6">
+
+        <div class="card shadow-sm p-4">
+          <form action="/jokes" method="POST">
+
+            <!-- Category -->
+            <div class="mb-3">
+              <label class="form-label fw-semibold">Category</label>
+              <select name="categories" class="form-select">
+                <option value="Any">Any</option>
+                <option value="Miscellaneous">Misc</option>
+                <option value="Programming">Programming</option>
+                <option value="Dark">Dark</option>
+                <option value="Pun">Pun</option>
+                <option value="Spooky">Spooky</option>
+                <option value="Christmas">Christmas</option>
+              </select>
+            </div>
+
+            <!-- Type -->
+            <div class="mb-3">
+              <label class="form-label fw-semibold">Type</label>
+              <select name="type" class="form-select">
+                <option value="single,twopart" selected>Type</option>
+                <option value="single">Single</option>
+                <option value="twopart">Two Part</option>
+              </select>
+            </div>
+
+            <!-- Format -->
+            <div class="mb-3">
+              <label class="form-label fw-semibold d-block">Format</label>
+
+              <div class="d-flex flex-wrap gap-3">
+                <div class="form-check">
+                  <input class="form-check-input" type="radio" name="format" value="json" checked>
+                  <label class="form-check-label">JSON</label>
+                </div>
+
+                <div class="form-check">
+                  <input class="form-check-input" type="radio" name="format" value="xml">
+                  <label class="form-check-label">XML</label>
+                </div>
+
+                <div class="form-check">
+                  <input class="form-check-input" type="radio" name="format" value="yaml">
+                  <label class="form-check-label">YAML</label>
+                </div>
+
+                <div class="form-check">
+                  <input class="form-check-input" type="radio" name="format" value="txt">
+                  <label class="form-check-label">Plain Text</label>
+                </div>
+              </div>
+            </div>
+
+            <!-- Button -->
+            <div class="d-grid">
+              <button type="submit" class="btn btn-primary">
+                Get Joke
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    <h3 class="fw-bold text-center mt-5">Laugh out loud! 😂</h3>
+    <!-- Result Section -->
+    <% if(locals.data){ %>
+    <div class="row justify-content-center mt-5">
+      <div class="col-md-8 col-lg-6">
+
+        <div class="card shadow-sm p-4">
+
+          <% if(typeof data === "object"){ %>
+
+            <h5 class="text-muted mb-2"><%= data.category %></h5>
+            <span class="badge bg-secondary py-2 mb-3"><%= data.type %></span>
+
+            <% if(data.type === 'twopart'){ %>
+              <p class="fs-5"><%= data.setup %></p>
+              <p class="fw-bold"><%= data.delivery %></p>
+            <% } else { %>
+              <p class="fs-5"><%= data.joke %></p>
+            <% } %>
+
+          <% } else { %>
+
+            <pre class="bg-light p-3 rounded"><%= data %></pre>
+
+          <% } %>
+
+        </div>
+
+      </div>
+    </div>
+    <% } %>
+
+    <!-- Error -->
+    <% if(locals.error){ %>
+    <div class="row justify-content-center mt-4">
+      <div class="col-md-6">
+        <div class="alert alert-danger text-center">
+          <%= error %>
+        </div>
+      </div>
+    </div>
+    <% } %>
+
+  </div>
+
+</body>
+</html>
